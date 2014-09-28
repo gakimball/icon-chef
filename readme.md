@@ -13,11 +13,21 @@ Haven't tested it in libsass yet, hang on! But you would need that list maps pol
 
 ## Usage
 
+Install it using Bower or with your bare hands:
+
+```bash
+bower install icon-chef --save
+```
+
+Use this markup to make your icon. I should probably use psuedo-elements instead.
+
 ```html
 <div class="icon">
   <span></span>
 </div>
 ```
+
+And now write this:
 
 ```scss
 .icon {
