@@ -1,0 +1,157 @@
+/**
+ * Creates a menu icon with a set width, height, number of bars, and colors.
+ * The mixin uses the height of the icon and the weight of the bars to determine spacing.
+ * If a set of toppings is passed in, the mixin ignores the set colors and bar count.
+ *
+ * @author Geoff Kimball
+ *
+ * @param {number} $width - Width of the icon.
+ * @param {number} $height - Height of the icon.
+ * @param {number} $weight - Height of individual bars in the icon.
+ * @param {number} $bars - Number of bars in the icon.
+ * @param {list | null} $toppings - A list of toppings to use in the middle of the icon.
+ * @param {color} $bgColor - Color to use for the icon.
+ * @param {color} $hoverBg - Color to use when the icon is hovered over.
+ */
+@mixin icon-chef(
+  $width: 30px,
+  $height: 23px,
+  $weight: 4px,
+  $bars: 3,
+  $toppings: false,
+  $bgColor: black,
+  $hoverBg: #999
+) {
+
+  // box-shadow CSS output
+  $shadow: ();
+  $hoverShadow: ();
+
+  // Colors to use for each bar
+  $colors: ();
+  $hoverColors: ();
+
+  $hasHover: $bgColor != $hoverBg;
+
+  $lighten-amount: 10%;
+
+  // Set the number of bars
+  @if $toppings != false {
+    $bars: 2 + length($toppings);
+  }
+
+  // Topping colors
+  $toppingColors: (
+    bread: #bb9b4b,
+    meat: #86622a,
+    lettuce: #39dd34,
+    tomato: #dd6060,
+    onion: #dd81a6,
+    pickles: #659e61,
+  );
+
+  // Spacing between bars is calculated based on the total height of the icon and the weight of each bar
+  $spacing: floor(($height - ($weight * $bars)) / ($bars - 1));
+
+  // Basic styles for container
+  display: inline-block;
+  vertical-align: middle;
+  width: $width;
+  height: $height;
+  cursor: pointer;
+
+  // Colors
+  @if $toppings != false {
+    // Top bun
+    $colors: append($colors, map-get($toppingColors, bread));
+    $hoverColors: append($hoverColors, lighten((map-get($toppingColors, bread)), $lighten-amount));
+
+    // Toppings
+    @each $topping in $toppings {
+      $colors: append($colors, map-get($toppingColors, $topping));
+      $hoverColors: append($hoverColors, lighten((map-get($toppingColors, $topping)), $lighten-amount));
+    }
+
+    // Bottom bun
+    $colors: append($colors, map-get($toppingColors, bread));
+    $hoverColors: append($hoverColors, lighten((map-get($toppingColors, bread)), $lighten-amount));
+  }
+  @else {
+    @for $i from 1 through $bars {
+      $colors: append($colors, $bgColor);
+
+      @if $hasHover {
+        $hoverColors: append($hoverColors, $hoverBg);
+      }
+    }
+  }
+
+  // Normal state
+  > span {
+    display: block;
+    width: 100%;
+    height: $weight;
+    background: nth($colors, 1);
+
+    @for $i from 2 through $bars {
+      $offset: ($weight + $spacing) * ($i - 1);
+      $shadow: append($shadow, 0 $offset 0 nth($colors, $i), comma);
+      @debug $shadow;
+    }
+
+    -webkit-box-shadow: $shadow;
+       -moz-box-shadow: $shadow;
+            box-shadow: $shadow;
+  }
+
+  // Hover state
+  @if $hasHover {
+    @each $bar in $shadow {
+      @for $i from 2 through $bars {
+        $offset: ($weight + $spacing) * ($i - 1);
+        $hoverShadow: append($hoverShadow, 0 $offset 0 nth($hoverColors, $i), comma);
+      }
+    }
+    &:hover > span {
+      background: nth($hoverColors, 1);
+      -webkit-box-shadow: $hoverShadow;
+         -moz-box-shadow: $hoverShadow;
+              box-shadow: $hoverShadow;
+    }
+  }
+}
+
+@mixin hamburger(
+  $width: 30px,
+  $height: 23px,
+  $weight: 4px,
+  $bars: 3,
+  $toppings: false,
+  $bgColor: black,
+  $hoverBg: #999
+) {
+  @include icon-chef(
+    $bars: $bars,
+    $toppings: $toppings,
+    $width: $width,
+    $height: $height,
+    $weight: $weight,
+    $bgColor: $bgColor,
+    $hoverBg: $hoverBg
+  );
+};
+
+@mixin grilled-cheese(
+  $width: 30px,
+  $height: 18px,
+  $weight: 6px
+) {
+  @include icon-chef(
+    $bars: 2,
+    $width: $width,
+    $height: $height,
+    $weight: $weight,
+    $bgColor: #a05f43,
+    $hoverBg: #cb7854
+  );
+};

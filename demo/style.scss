@@ -1,0 +1,56 @@
+@import "../scss/icon-chef";
+
+// Basics
+* {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+body {
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: "Source Sans Pro", "Hevletica Neue", sans-serif;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+// Page title
+h1 {
+  margin-top: 2rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+// Panels
+.panel {
+  background: #eee;
+  border-bottom: 2px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+
+  h2 {
+    margin-left: 1rem;
+    display: inline-block;
+    font-size: 2rem;
+    vertical-align: middle;
+  }
+}
+
+.icon-basic {
+  @include hamburger;
+}
+.icon-double {
+  @include hamburger($height: 18px, $weight: 6px, $bars: 2);
+}
+.icon-five {
+  @include hamburger($weight: 3px, $height: 28px, $bars: 5);
+}
+.icon-grilled-cheese {
+  @include grilled-cheese;
+}
+.icon-hamburger {
+  @include hamburger($toppings: tomato lettuce meat, $height: 30px);
+}
