@@ -1,0 +1,23 @@
+{
+  "name": "icon-chef",
+  "version": "0.0.1",
+  "authors": [
+    "Geoff Kimball <geoff@zurb.com>"
+  ],
+  "description": "Cook up delicious, flexible lined menu icons.",
+  "main": "scss/icon-chef.scss",
+  "keywords": [
+    "scss",
+    "sass",
+    "hamburger"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
