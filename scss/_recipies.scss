@@ -1,3 +1,12 @@
+/**
+ * Craft a delicious grilled cheese icon. It's three bars sandwiched together into one confusing icon.
+ * The weight of each bar is automatically calculated based on the height.
+ *
+ * @author Geoff Kimball
+ *
+ * @param {number} $width - Width of the icon.
+ * @param {number} $height - Height of the icon.
+ */
 @mixin grilled-cheese(
   $width: 30px,
   $height: 18px
@@ -12,6 +21,15 @@
   );
 };
 
+/**
+ * An In-n-Out classic, this Double Double-inspired menu icon stands at seven lines tall.
+ *
+ * @author Geoff Kimball
+ *
+ * @param {number} $width - Width of the icon.
+ * @param {number} $height - Height of the icon.
+ * @param {weight} $weight - Height of each bar in the icon.
+ */
 @mixin double-double(
   $width: 30px,
   $height: 40px,

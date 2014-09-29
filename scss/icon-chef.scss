@@ -1,3 +1,17 @@
+%icon-chef-icon {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+  }
+}
+
 /**
  * Creates a menu icon with a set width, height, number of bars, and colors.
  * The mixin uses the height of the icon and the weight of the bars to determine spacing.
@@ -59,12 +73,9 @@
   $spacing: floor(($height - ($weight * $bars)) / ($bars - 1));
 
   // Basic styles for container
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
+  @extend %icon-chef-icon;
   width: $width;
   height: $height;
-  cursor: pointer;
 
   // Colors
   @if $toppings != false {
@@ -94,10 +105,6 @@
 
   // Normal state
   &::after {
-    content: '';
-    position: absolute;
-    display: block;
-    width: 100%;
     height: $weight;
     background: nth($colors, 1);
 
