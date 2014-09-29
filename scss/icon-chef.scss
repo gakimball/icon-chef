@@ -34,8 +34,12 @@
   $bars: 3,
   $toppings: false,
   $bgColor: black,
-  $hoverBg: #999
+  $hoverBg: false
 ) {
+
+  /*
+    Local variables
+  */
 
   // box-shadow CSS output
   $shadow: ();
@@ -45,18 +49,28 @@
   $colors: ();
   $hoverColors: ();
 
-  // Detect if the hover state is necessary
-  $hasHover: $bgColor != $hoverBg;
-
   // Amount to lighten for hover state
-  // Should probably use scale-color to allow for pos/neg values
-  // And use this setting instead of $hoverBg
-  $lighten-amount: 10%;
+  $lighten-amount: 20%;
+
+  // Detect user settings
+  $hasHover: $bgColor != $hoverBg;
+  $hasToppings: $toppings != false;
+
+  /*
+    Bars and spacing
+  */
 
   // If the user specified toppings, two extra bars for bread are added automatically
-  @if $toppings != false {
+  @if $hasToppings {
     $bars: 2 + length($toppings);
   }
+
+  // Spacing between bars is calculated based on the total height of the icon and the weight of each bar
+  $spacing: floor(($height - ($weight * $bars)) / ($bars - 1));
+
+  /*
+    Coloring
+  */
 
   // Topping colors
   $toppingColors: (
@@ -69,41 +83,36 @@
     pickles: #659e61,
   );
 
-  // Spacing between bars is calculated based on the total height of the icon and the weight of each bar
-  $spacing: floor(($height - ($weight * $bars)) / ($bars - 1));
-
-  // Basic styles for container
-  @extend %icon-chef-icon;
-  width: $width;
-  height: $height;
-
-  // Colors
-  @if $toppings != false {
+  // If not using toppings, all bars have the same color
+  @if not $hasToppings {
+    @for $i from 1 through $bars {
+      $colors: append($colors, $bgColor);
+    }
+  }
+  // If using toppings, we craft a special series of color bars, fresh, never frozen
+  @else {
     // Top bun
     $colors: append($colors, map-get($toppingColors, bread));
-    $hoverColors: append($hoverColors, lighten((map-get($toppingColors, bread)), $lighten-amount));
 
     // Toppings
     @each $topping in $toppings {
       $colors: append($colors, map-get($toppingColors, $topping));
-      $hoverColors: append($hoverColors, lighten((map-get($toppingColors, $topping)), $lighten-amount));
     }
 
     // Bottom bun
     $colors: append($colors, map-get($toppingColors, bread));
-    $hoverColors: append($hoverColors, lighten((map-get($toppingColors, bread)), $lighten-amount));
-  }
-  @else {
-    @for $i from 1 through $bars {
-      $colors: append($colors, $bgColor);
-
-      @if $hasHover {
-        $hoverColors: append($hoverColors, $hoverBg);
-      }
-    }
   }
 
-  // Normal state
+  /*
+    Hover state
+  */
+
+  // Icon container
+  @extend %icon-chef-icon;
+  width: $width;
+  height: $height;
+
+  // Icon bars
   &::after {
     height: $weight;
     background: nth($colors, 1);
@@ -118,14 +127,34 @@
             box-shadow: $shadow;
   }
 
-  // Hover state
+  /*
+    Hover state
+  */
   @if $hasHover {
+    // If using hover variables: just use those
+    @if not $hasToppings {
+      // If the user didn't specify a hover color, make one
+      $hoverBg: if($hoverBg == false, scale-color($bgColor, $lightness: $lighten-amount), $hoverBg);
+
+      @each $color in $colors {
+        $hoverColors: append($hoverColors, $hoverBg);
+      }
+    }
+    // If using toppings: lighten each color
+    @else {
+      @each $color in $colors {
+        $newColor: scale-color($color, $lightness: $lighten-amount);
+        $hoverColors: append($hoverColors, $newColor);
+      }
+    }
+    // Generate CSS
     @each $bar in $shadow {
       @for $i from 2 through $bars {
         $offset: ($weight + $spacing) * ($i - 1);
         $hoverShadow: append($hoverShadow, 0 $offset 0 nth($hoverColors, $i), comma);
       }
     }
+
     &:hover::after {
       background: nth($hoverColors, 1);
       -webkit-box-shadow: $hoverShadow;
