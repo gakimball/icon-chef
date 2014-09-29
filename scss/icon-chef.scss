@@ -31,11 +31,15 @@
   $colors: ();
   $hoverColors: ();
 
+  // Detect if the hover state is necessary
   $hasHover: $bgColor != $hoverBg;
 
+  // Amount to lighten for hover state
+  // Should probably use scale-color to allow for pos/neg values
+  // And use this setting instead of $hoverBg
   $lighten-amount: 10%;
 
-  // Set the number of bars
+  // If the user specified toppings, two extra bars for bread are added automatically
   @if $toppings != false {
     $bars: 2 + length($toppings);
   }
@@ -54,6 +58,7 @@
   $spacing: floor(($height - ($weight * $bars)) / ($bars - 1));
 
   // Basic styles for container
+  position: relative;
   display: inline-block;
   vertical-align: middle;
   width: $width;
@@ -87,7 +92,9 @@
   }
 
   // Normal state
-  > span {
+  &::after {
+    content: '';
+    position: absolute;
     display: block;
     width: 100%;
     height: $weight;
@@ -96,7 +103,6 @@
     @for $i from 2 through $bars {
       $offset: ($weight + $spacing) * ($i - 1);
       $shadow: append($shadow, 0 $offset 0 nth($colors, $i), comma);
-      @debug $shadow;
     }
 
     -webkit-box-shadow: $shadow;
@@ -112,7 +118,7 @@
         $hoverShadow: append($hoverShadow, 0 $offset 0 nth($hoverColors, $i), comma);
       }
     }
-    &:hover > span {
+    &:hover::after {
       background: nth($hoverColors, 1);
       -webkit-box-shadow: $hoverShadow;
          -moz-box-shadow: $hoverShadow;
