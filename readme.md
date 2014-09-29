@@ -19,19 +19,17 @@ Install it using Bower or with your bare hands:
 bower install icon-chef --save
 ```
 
-Use this markup to make your icon. I should probably use psuedo-elements instead.
+Use this markup to make your icon
 
 ```html
-<div class="icon">
-  <span></span>
-</div>
+<div class="icon"></div>
 ```
 
 And now write this:
 
 ```scss
 .icon {
-  @include hamburger($width, $height, $weight, $bars, $toppings, $bgColor, $hoverBg);
+  @include icon-chef($width, $height, $weight, $bars, $toppings, $bgColor, $hoverBg);
 }
 ```
 
@@ -51,12 +49,13 @@ The `$toppings` variable accepts a list of toppings which will be placed between
 
 - Bread
 - Meat
+- Cheese
 - Lettuce
 - Tomato
 - Onion
 
-Note that two slices of bread are added to the top and bottom automatically, so the below code will produce an icon with four bars:
+Note that two slices of bread are added to the top and bottom automatically, so the code below will produce an icon with four bars:
 
 ```scss
-  @include hamburger($toppings: meat lettuce);
+  @include icon-chef($toppings: meat lettuce);
 ```
