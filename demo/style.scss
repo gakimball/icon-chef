@@ -40,17 +40,20 @@ h1 {
 }
 
 .icon-basic {
-  @include hamburger;
+  @include icon-chef;
 }
 .icon-double {
-  @include hamburger($height: 18px, $weight: 6px, $bars: 2);
+  @include icon-chef($height: 18px, $weight: 6px, $bars: 2);
 }
 .icon-five {
-  @include hamburger($weight: 3px, $height: 28px, $bars: 5);
+  @include icon-chef($weight: 3px, $height: 28px, $bars: 5);
 }
 .icon-grilled-cheese {
   @include grilled-cheese;
 }
 .icon-hamburger {
-  @include hamburger($toppings: tomato lettuce meat, $height: 30px);
+  @include icon-chef($toppings: tomato lettuce meat, $height: 30px);
+}
+.icon-double-double {
+  @include double-double;
 }

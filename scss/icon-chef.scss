@@ -48,6 +48,7 @@
   $toppingColors: (
     bread: #bb9b4b,
     meat: #86622a,
+    cheese: #e1c640,
     lettuce: #39dd34,
     tomato: #dd6060,
     onion: #dd81a6,
@@ -127,37 +128,4 @@
   }
 }
 
-@mixin hamburger(
-  $width: 30px,
-  $height: 23px,
-  $weight: 4px,
-  $bars: 3,
-  $toppings: false,
-  $bgColor: black,
-  $hoverBg: #999
-) {
-  @include icon-chef(
-    $bars: $bars,
-    $toppings: $toppings,
-    $width: $width,
-    $height: $height,
-    $weight: $weight,
-    $bgColor: $bgColor,
-    $hoverBg: $hoverBg
-  );
-};
-
-@mixin grilled-cheese(
-  $width: 30px,
-  $height: 18px,
-  $weight: 6px
-) {
-  @include icon-chef(
-    $bars: 2,
-    $width: $width,
-    $height: $height,
-    $weight: $weight,
-    $bgColor: #a05f43,
-    $hoverBg: #cb7854
-  );
-};
+@import "recipies";

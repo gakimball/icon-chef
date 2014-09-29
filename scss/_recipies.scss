@@ -1,0 +1,26 @@
+@mixin grilled-cheese(
+  $width: 30px,
+  $height: 18px
+) {
+  @include icon-chef(
+    $toppings: cheese,
+    $width: $width,
+    $height: $height,
+    $weight: $height / 3,
+    $bgColor: #a05f43,
+    $hoverBg: #cb7854
+  );
+};
+
+@mixin double-double(
+  $width: 30px,
+  $height: 40px,
+  $weight: 3px
+) {
+  @include icon-chef(
+    $width: $width,
+    $height: $height,
+    $weight: $weight,
+    $toppings: cheese meat bread cheese meat
+  );
+};
